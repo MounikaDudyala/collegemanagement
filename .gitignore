@@ -1,0 +1,20 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+.settings/
+.classpath
+gradlew
+gradlew.bat
+settings.gradle/
+.project
+bin/
+tmp/
+/target/
+.idea
+!gradle-wrapper.jar
+*target*
+*.jar
+*.war
+*.ear
+*.class
+# Ignore Gradle build output directory
+build
