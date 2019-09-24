@@ -8,7 +8,7 @@ import java.util.List;
 public interface CollegeDao {
     void createStudent(Student student);
     List<Student> fetchStudents();
-    Student fetchStudent(int id);
+    Student fetchStudent(Integer id);
     void editStudent(Student student);
-    Department fetchDepartment(int id);
+    Department fetchDepartment(Integer id);
 }

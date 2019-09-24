@@ -45,7 +45,7 @@ public class CollegeDaoImpl extends AbstractDao implements CollegeDao {
 		final Session session = getSession();
 		try {
 			Query query = session.createQuery("from Student");
-			studentList = query.list();
+			studentList =(List<Student>)query.list();
 
 		} finally {
 			session.close();
@@ -54,7 +54,7 @@ public class CollegeDaoImpl extends AbstractDao implements CollegeDao {
 	}
 
 	@Override
-	public Student fetchStudent(int id) {
+	public Student fetchStudent(Integer id) {
 		Student student = null;
 		final Session session = getSession();
 		try {
@@ -67,19 +67,25 @@ public class CollegeDaoImpl extends AbstractDao implements CollegeDao {
 		return student;
 	}
 
+	/*
+	 * public static void main(String args[]) { CollegeDaoImpl collegeDaoImpl=new
+	 * CollegeDaoImpl();
+	 * 
+	 * System.out.println(collegeDaoImpl.fetchStudent(2)); }
+	 */
 	@Override
 	public void editStudent(Student student) {
 		final Session session = getSession();
 		try {
 			Query query = session.createQuery(
-					"update Student S set S.firstname=:firstname,S.lastname=:lastname,S.deptId=:deptId where S.id=:id");
+					"update Student S set S.id=:id,S.firstname=:firstname,S.lastname=:lastname,S.deptId=:deptId where S.id=:id");
 			query.setParameter("firstname", student.getFirstname());
 			query.setParameter("lastname", student.getLastname());
 			query.setParameter("deptId", student.getDeptId());
 			query.setParameter("id", student.getId());
-			Transaction t = session.beginTransaction();
-			int i = query.executeUpdate();
-			t.commit();
+			session.beginTransaction();
+		    query.executeUpdate();
+			session.getTransaction().commit();
 
 		} finally {
 			session.close();
@@ -87,7 +93,7 @@ public class CollegeDaoImpl extends AbstractDao implements CollegeDao {
 	}
 
 	@Override
-	public Department fetchDepartment(int id) {
+	public Department fetchDepartment(Integer id) {
 		final Session session = getSession();
 		Department department;
 		try {
@@ -101,20 +107,4 @@ public class CollegeDaoImpl extends AbstractDao implements CollegeDao {
 
 	}
 
-	/*
-	 * public static void main(String args[]) { CollegeDaoImpl collegeDao = new
-	 * CollegeDaoImpl();
-	 * 
-	 * System.out.println(collegeDao.editStudent(2));
-	 * 
-	 * 
-	 * System.out.println(collegeDao.fetchStudent(2).toString());
-	 * 
-	 * 
-	 * List<Student> studentList=collegeDao.fetchStudents(); for (Student student1 :
-	 * studentList) { System.out.println("  " + student1.toString()); }
-	 * 
-	 * 
-	 * }
-	 */
 }

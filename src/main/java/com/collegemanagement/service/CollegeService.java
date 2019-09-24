@@ -16,7 +16,7 @@ public class CollegeService {
        List<Student> studentList=collegeDao.fetchStudents();
        return studentList;
    }
-   public Student fetchStudent(int id){
+   public Student fetchStudent(Integer id){
        Student student=collegeDao.fetchStudent(id);
        return student;
    }

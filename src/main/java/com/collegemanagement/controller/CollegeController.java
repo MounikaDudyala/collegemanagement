@@ -26,8 +26,8 @@ public class CollegeController {
         }
         return new ResponseEntity<List<Student>>(studentList, HttpStatus.OK);
     }
-   @RequestMapping(value="/student{id}",method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Student> fetchEmployee(@PathVariable int id){
+   @RequestMapping(value="/student/{id}", method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Student> fetchStudent(@PathVariable("id") Integer id){
      Student student=collegeService.fetchStudent(id);
      if(student==null){
          System.out.println("Student with Id:"+id+"not existed");
@@ -35,7 +35,7 @@ public class CollegeController {
      }
      return new ResponseEntity<Student>(student,HttpStatus.OK);
    }
-   @RequestMapping(value="/student",method=RequestMethod.POST)
+   @RequestMapping(value="/student", method=RequestMethod.POST)
     public ResponseEntity<Void> createStudent(@RequestBody Student student,UriComponentsBuilder uriComponentsBuilder){
     if(collegeService.isStudentExist(student)){
         System.out.println("Student already exists");
@@ -46,18 +46,18 @@ public class CollegeController {
     httpHeaders.setLocation(uriComponentsBuilder.path("/student/{id}").buildAndExpand(student.getId()).toUri());
     return new ResponseEntity<>(HttpStatus.OK);
 }
-   @RequestMapping(value="/student{id}",method =RequestMethod.PUT)
-    public ResponseEntity<Student> editStudent(@PathVariable int id,@RequestBody Student student){
+   @RequestMapping(value="/student/{id}", method =RequestMethod.PUT)
+    public ResponseEntity<Student> editStudent(@PathVariable("id") Integer id,@RequestBody Student student){
         Student currentStudent=collegeService.fetchStudent(id);
         if(currentStudent==null)
         {
             System.out.println("Student not exists");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
         }
         currentStudent.setDeptId(student.getDeptId());
         currentStudent.setFirstname(student.getFirstname());
         currentStudent.setLastname(student.getLastname());
-        collegeService.editStudent(student);
-        return new ResponseEntity<>(student,HttpStatus.OK);
+        collegeService.editStudent(currentStudent);
+        return new ResponseEntity<Student>(currentStudent,HttpStatus.OK);
 }
 }
